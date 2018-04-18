@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>集群内存监控</title>
+	<base href="/monitor/asset/"/>
+	<script src="common/js/commonHeadPack.js"></script>
+	<link rel="stylesheet" href="module/memory/memory.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+<div class="wrapper">
+	<script src="common/js/header.js"></script>
+	<script src="common/js/slider.js"></script>
+	<div class="content-wrapper">
+
+		<section class="content-header">
+			<h1>
+				内存监控
+				<small>集群内存资源</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="#"><i class="fa fa-dashboard"></i> 硬件监控</a></li>
+				<li class="active">内存监控</li>
+			</ol>
+		</section>
+
+		<section class="content">
+			<!-- Info boxes -->
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-green"><i class="fa fa-coffee"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-text">总内存</span>
+							<span class="info-box-number fontSize40" id="totalMem">N/A</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-orange"><i class="fa fa-fw fa-files-o"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">总交换空间</span>
+							<span class="info-box-number fontSize40" id="totalSwap">N/A</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- fix for small devices only -->
+				<div class="clearfix visible-sm-block"></div>
+
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="info-box bg-red">
+						<span class="info-box-icon"><i class="fa fa-pie-chart"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-text">内存使用率</span>
+							<span class="info-box-number" id="memUsedInfo">N/A</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 0%" id="memUsedProgressBar"></div>
+							</div>
+							<span class="progress-description">已使用<span id="memUsedRate">N/A</span>的内存</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div id="memChart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box noBoxBottomMargin">
+						<div class="box-body">
+							<table class="table table-condensed" id="memInfoTable"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+	</div>
+
+	<script src="common/js/footer.js"></script>
+</div>
+
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/memory/memory.js"></script>
+<script src="module/memory/mem_chart.js"></script>
+</body>
+</html>

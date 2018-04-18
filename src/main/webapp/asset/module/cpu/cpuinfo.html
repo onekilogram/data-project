@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<base href="/monitor/asset/" />
+<script src="common/js/commonHeadPack.js"></script>
+<link rel="stylesheet" href="module/cpu/cpu.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<script src="common/js/header.js"></script>
+		<script src="common/js/slider.js"></script>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>
+					CPU监控<small>集群CPU资源</small>
+				</h1>
+				<!-- 路径导航 -->
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>硬件资源监测</a></li>
+					<li class="active">CPU相关</li>
+				</ol>
+			</section>
+			<section class="content">
+			    <div class="row">
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-maroon"><i
+								class="fa fa-fw fa-bullseye"></i></span>
+							<div class="info-box-content">
+								<span class="info-box-text">CPU逻辑核心数</span>
+								<span class="info-box-number fontSize40" id="cpuNum">N/A</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="info-box" id="yarnNodeInfoBox">
+							<span class="info-box-icon bg-red"><i
+								class="fa fa-fw fa-bolt"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">CPU运行速度</span> <span
+									class="info-box-number fontSize40" id="cpuSpeed">N/A</span>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="info-box" id="yarnAppInfoBox">
+							<span class="info-box-icon bg-green"><i
+								class="fa fa-fw fa-pie-chart"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">平均使用率</span> <span
+									class="info-box-number fontSize40" id="cpuIdle">N/A</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="box">
+									<div class="row">
+										<div class="col-md-10 col-sm-10 col-xs-12">
+											<!-- <div id="applicationChart"></div> -->
+											<div id="cpu_ratio" style="width: 100%; height: 400px;"></div>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<div class="appStatistic">
+												<ul class="list-group">
+													<li class="list-group-item"><b>CPU相关：</b></li>
+													<li class="list-group-item">&nbsp;CPU使用比例：<span
+														id="cpuIdle2">N/A</span></li>
+													<li class="list-group-item">&nbsp;内核CPU占比：<span
+														id="cpuSystem">N/A</span></li>
+													<li class="list-group-item">&nbsp;用户CPU占比：<span
+														id="cpuUser">N/A</span></li>
+													<li class="list-group-item">&nbsp;等待I/O CPU占比：<span
+														id="cpuWio">N/A</span></li>
+													<li class="list-group-item" style="display: none">&nbsp;用户进程所占比例：<span
+														id="cpuNice">N/A</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="box">
+									<div class="row">
+										<div class="col-md-10 col-sm-10 col-xs-12">
+											<!-- 进程相关的信息 -->
+											<div id="cpu_proc" style="width: 100%; height: 400px;"></div>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<div class="appStatistic">
+												<ul class="list-group">
+													<li class="list-group-item"><b>进程相关：</b></li>
+													<li class="list-group-item">&nbsp;总进程数：<span
+														id="procTatalNum">N/A</span></li>
+													<li class="list-group-item">&nbsp;正在运行进程数：<span
+														id="procRunningNum">N/A</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.row -->
+			</section>
+
+		</div>
+		<script src="common/js/footer.js"></script>
+	</div>
+
+	<script src="common/js/commonJSPack.js"></script>
+	<script src="plugins/echarts/echarts.js"></script>
+	<script src="module/cpu/cpu.js"></script>
+	<script src="module/cpu/cpu_ratio.js"></script>
+	<script src="module/cpu/cpu_proc.js"></script>
+</body>
+</html>

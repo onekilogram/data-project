@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<base href="/monitor/asset/" />
+<!-- 所有页面公用CSS和Head信息 -->
+<script src="common/js/commonHeadPack.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<script src="common/js/header.js"></script>
+		<script src="common/js/slider.js"></script>
+
+		<!-- 主体内容 -->
+		<div class="content-wrapper">
+			<ul id="myTab" class="nav nav-tabs">
+				<li><a id="namenodeA" href="#namenode" data-toggle="tab">NameNode</a></li>
+				<li class="active"><a href="#datanode" data-toggle="tab">DataNode</a></li>
+			</ul>
+
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade in active" id="datanode">
+					<!-- 内容头 -->
+					<section class="content-header">
+						<h1>
+							DataNode <small>数据节点监控</small>
+						</h1>
+						<!-- 路径导航 -->
+						<ol class="breadcrumb">
+							<li><a href="/monitor"><i class="fa fa-dashboard"></i>
+									主页</a></li>
+							<li class="active">DataNode</li>
+						</ol>
+					</section>
+
+					<!-- 内容体 -->
+					<section class="content">
+						<div class="row">
+							<div class="col-md-3 col-sm-6 col-xs-12">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="info-box">
+										<span class="info-box-icon bg-aqua"><i
+											class="fa fa-heartbeat" aria-hidden="true"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Live Data Nodes</span> <span
+												class="info-box-text">存活数据节点数</span> <span id="LiveNodeNum"
+												class="info-box-number"></span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="info-box">
+										<span class="info-box-icon bg-yellow"><i
+											class="fa fa-power-off" aria-hidden="true"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Decommission Data Nodes</span> <span
+												class="info-box-text">退役数据节点数</span> <span id="DecomNodeNum"
+												class="info-box-number"></span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="info-box">
+										<span class="info-box-icon bg-red"><i
+											class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Dead Data Nodes</span> <span
+												class="info-box-text">死亡数据节点数</span> <span id="DeadNodeNum"
+												class="info-box-number"></span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="info-box">
+										<span class="info-box-icon bg-teal"><i
+											class="fa fa-folder-open-o" aria-hidden="true"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Percent Used</span> <span
+												class="info-box-text">HDFS使用率</span> <span id="PercentUsed"
+												class="info-box-number"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9 col-sm-6 col-xs-12">
+								<!--  <div class="box">-->
+								<div id="clusterInf" style="height: 405px; margin: 0 3% 15px;"></div>
+								<!--  </div>-->
+							</div>
+						</div>
+
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<!-- 参数名称写死 尝试jquery template.js前端模板引擎等 重复太多 -->
+								<h3 class="box-title">
+									<b>读写字节数</b>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse"
+										data-toggle="tooltip" title="Collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+								<!-- /.box-tools -->
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<div id="Bytes R/W" style="height: 400px;"></div>
+							</div>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<!-- 参数名称写死 尝试jquery template.js前端模板引擎等 重复太多 -->
+								<h3 class="box-title">
+									<b>读写块数</b>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse"
+										data-toggle="tooltip" title="Collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+								<!-- /.box-tools -->
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<div id="Blocks R/W" style="height: 400px;"></div>
+							</div>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<!-- 参数名称写死 尝试jquery template.js前端模板引擎等 重复太多 -->
+								<h3 class="box-title">
+									<b>读写操作平均时间</b>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse"
+										data-toggle="tooltip" title="Collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+								<!-- /.box-tools -->
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<div id="Block R/W Ops Avg Time" style="height: 400px;"></div>
+							</div>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</section>
+				</div>
+
+
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+
+
+
+
+	<!-- 尾部信息，包含版权版本等 -->
+	<script src="common/js/footer.js"></script>
+
+	<!-- 所有页面公用的JS -->
+	<script src="common/js/commonJSPack.js"></script>
+	<!-- <script type="text/javascript" src="plugins/jQuery/jquery-2.2.3.min.js"></script> -->
+	<script src="plugins/echarts/echarts.js"></script>
+	<script type="text/javascript" src="module/datanode/datanodeCharts.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			DataNode.init();
+		});
+		$("#namenodeA").click(function() {
+			location.href = "/monitor/asset/module/namenode/namenode.html";
+		});
+	</script>
+</body>
+</html>

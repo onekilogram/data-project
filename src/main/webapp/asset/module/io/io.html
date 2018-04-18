@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<base href="/monitor/asset/" />
+<script src="common/js/commonHeadPack.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<script src="common/js/header.js"></script>
+		<script src="common/js/slider.js"></script>
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>
+					I/O监控<small>集群磁盘资源</small>
+				</h1>
+				<!-- 路径导航 -->
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>硬件资源监测</a></li>
+					<li class="active">I/O相关</li>
+				</ol>
+			</section>
+			<section class="content">
+				<div class="row">
+					<!-- <div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-olive"><i
+								class="fa fa-fw fa-tasks"></i></span>
+							<div class="info-box-content">
+								<span class="info-box-text">磁盘总量</span> <span
+									class="info-box-number"><label id="diskTotal">N/A</label></span>
+							</div>
+							/.info-box-content
+						</div>
+						/.info-box
+					</div> -->
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-maroon"><i
+								class="fa fa-fw fa-tasks"></i></span>
+							<div class="info-box-content">
+								<span class="info-box-text">磁盘总量</span>
+								<span class="info-box-number fontSize40" id="diskTotal">N/A</span>
+							</div>
+						</div>
+					</div>
+					<!-- /.col -->
+					<div class="clearfix visible-sm-block"></div>
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="info-box bg-green">
+							<span class="info-box-icon"><i
+								class="fa fa-fw fa-pie-chart"></i></span>
+							<div class="info-box-content">
+								<span class="info-box-text">磁盘已使用</span> <span
+									class="info-box-number" id="diskUsed">N/A</span>
+
+								<div class="progress">
+									<div class="progress-bar" style="width: 0%" id="diskused-progress-bar"></div>
+								</div>
+								<span class="progress-description">已使用<span id="diskused-progress-description"></span>%</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+				
+			<!-- 	<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div id="iofreechart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box noBoxBottomMargin">
+						<div class="box-body">
+							<table class="table table-condensed" id="iofreeInfoTable"></table>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div id="ioBytesPktsChart" style="height: 500px;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box noBoxBottomMargin">
+						<div class="box-body">
+							<table class="table table-condensed" id="ioBytesPktsInfoTable"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+
+		</div>
+		<script src="common/js/footer.js"></script>
+	</div>
+
+	<script src="common/js/commonJSPack.js"></script>
+	<script src="plugins/echarts/echarts.js"></script>
+	<script src="module/io/io_total_free.js"></script>
+	<script src="module/io/io_bytes_pkets.js"></script>
+</body>
+</html>

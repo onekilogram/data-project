@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<base href="/data-project/asset/" />
+<script src="common/js/commonHeadPack.js"></script>
+<link rel="stylesheet" href="module/index/index.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse fixed">
+	<div class="wrapper">
+		<script src="common/js/header.js"></script>
+		<script src="common/js/slider.js"></script>
+
+		<div class="content-wrapper">
+
+			<section class="content-header">
+				<h1>
+					集群运行监测 <small>总体概览</small>
+				</h1>
+				<!-- 路径导航 -->
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> 整体运行概览</a></li>
+					<li class="active">首页</li>
+				</ol>
+			</section>
+
+			<section class="content">
+				<div class="row">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<div class="box" id="alertBox">
+							<div class="nav-tabs-custom alertNav">
+								<ul class="nav nav-tabs pull-right">
+									<li class=""><a href="#tab_1-1" data-toggle="tab" aria-expanded="false">进程</a></li>
+									<li class=""><a href="#tab_2-2" data-toggle="tab" aria-expanded="false">日志</a></li>
+									<li class="active"><a href="#tab_3-2" data-toggle="tab" aria-expanded="true">规则</a></li>
+									<li class="pull-left header"><i class="fa fa-warning"></i> 异常报警</li>
+								</ul>
+								<div class="tab-content alertTabContent">
+									<div class="tab-pane alertBlock" id="tab_1-1">
+										<ul class="list-group" id="processAlertList"></ul>
+									</div>
+									<div class="tab-pane alertBlock" id="tab_2-2">
+										<ul class="list-group" id="logAlertList"></ul>
+									</div>
+									<div class="tab-pane active alertBlock" id="tab_3-2">
+										<ul class="list-group" id="triggerAlertList"></ul>
+									</div>
+								</div>
+							</div>
+							<div class="overlay">
+								<i class="fa fa-refresh fa-spin"></i>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7 col-sm-6 col-xs-12">
+						<div class="box">
+							<div id="cpuChart" style="width: 100%; height: 300px;"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-5ths col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-maroon"><i
+								class="fa fa-fw fa-bolt"></i></span>
+							<div class="info-box-content">
+								<span class="info-box-text">RPC平均处理时间</span>
+								<span class="info-box-number fontSize40" id="rpcDelayField">N/A</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5ths col-sm-6 col-xs-12">
+						<div class="info-box clickInfoBox" id="yarnNodeInfoBox">
+							<span class="info-box-icon bg-red"><i
+								class="fa fa-fw fa-cubes"></i></span>
+							<div class="info-box-content">
+								<span class="info-box-text">Agent节点</span> <span
+									class="info-box-number fontSize40" id="yarnNodeField">N/A</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- fix for small devices only -->
+					<div class="clearfix visible-sm-block"></div>
+
+					<div class="col-md-5ths col-sm-6 col-xs-12">
+						<div class="info-box clickInfoBox" id="yarnAppInfoBox">
+							<span class="info-box-icon bg-green"><i
+								class="fa fa-fw fa-tasks"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">运行中应用数量</span> <span
+									class="info-box-number fontSize40" id="yarnAppField">N/A</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5ths col-sm-6 col-xs-12">
+						<div class="info-box clickInfoBox" id="diskInfoBox">
+							<span class="info-box-icon bg-yellow"><i
+								class="fa fa-fw fa-files-o"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">磁盘使用率</span> <span
+									class="info-box-number fontSize40" id="diskRateField">N/A</span>
+							</div>
+						</div>
+					</div>
+					<!-- /.col -->
+					<div class="col-md-5ths col-sm-6 col-xs-12">
+						<div class="info-box clickInfoBox" id="memInfoBox">
+							<span class="info-box-icon bg-olive"><i
+								class="fa fa-fw fa-pie-chart"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">内存使用率</span> <span
+									class="info-box-number fontSize40" id="memRateField">N/A</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-9 col-sm-12 col-xs-12">
+									<div id="loadChart" style="width: 100%; height: 320px;"></div>
+								</div>
+								<div class="col-md-3 col-sm-12 col-xs-12">
+									<div class="loadStatistic">
+										<ul class="list-group">
+											<li class="list-group-item">
+												<b>平均负载：</b>
+											</li>
+											<li class="list-group-item">&nbsp;<span id="loadNum">N/A</span></li>
+											<li class="list-group-item">
+												<b>说明：</b>
+											</li>
+											<li class="list-group-item">&nbsp;低压：<span>0-1</span></li>
+											<li class="list-group-item">&nbsp;中压：<span>1-2</span></li>
+											<li class="list-group-item">&nbsp;高压：<span>2-3</span></li>
+											<li class="list-group-item">&nbsp;极高：<span>&gt;3</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+							<div id="resourceDistChart" style="width: 100%; height: 320px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-10 col-sm-10 col-xs-12">
+									<div id="applicationChart"></div>
+								</div>
+								<div class="col-md-2 col-sm-2 col-xs-12">
+									<div class="appStatistic">
+										<ul class="list-group">
+											<li class="list-group-item">
+												<b>Map Reduce任务：</b>
+											</li>
+											<li class="list-group-item">&nbsp;运行中：<span id="mrRunningNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已失败：<span id="mrFailedNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已杀死：<span id="mrKilledNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已完成：<span id="mrFinishedNum">N/A</span></li>
+											<li class="list-group-item">
+												<b>Spark任务：</b>
+											</li>
+											<li class="list-group-item">&nbsp;运行中：<span id="spRunningNum">N/A</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</div>
+		<script src="common/js/footer.js"></script>
+	</div>
+
+	<div class="modal fade" id="alertContentModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span></button>
+					<h4 class="modal-title">异常信息</h4>
+				</div>
+				<div class="modal-body">
+					<p id="alertDetailContent"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="common/js/commonJSPack.js"></script>
+	<script src="plugins/echarts/echarts.js"></script>
+	<script src="module/index/index.js"></script>
+	<script src="module/index/cpu_chart.js"></script>
+	<script src="module/index/load_chart.js"></script>
+	<script src="module/index/application_chart.js"></script>
+	<script src="module/index/resource_chart.js"></script>
+</body>
+</html>

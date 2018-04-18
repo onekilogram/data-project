@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <title></title>
+	  <base href="/monitor/asset/" />
+	  <!-- 所有页面公用CSS和Head信息 -->
+	  <script src="common/js/commonHeadPack.js"></script>
+	  <style type="text/css">
+	  	pre.prettyprint {
+		  background: white;
+		  font-family: Menlo, 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Consolas, monospace;
+		  font-size: 12px;
+		  line-height: 1.5;
+		  border: 1px solid #dedede!important;
+		  padding: 10px;
+		  max-height: 300px;
+		  width: auto;
+		  overflow: auto!important;
+		}
+	  </style>
+	</head>
+	<body class="hold-transition skin-blue sidebar-mini fixed">
+		<div class="wrapper">
+		  <script src="common/js/header.js"></script>
+		  <script src="common/js/slider.js"></script>
+		
+		  <!-- 主体内容 -->
+		  <div class="content-wrapper">
+			  <ul id="myTab" class="nav nav-tabs">
+			      <li class="active"><a href="#namenode" data-toggle="tab">NameNode</a></li>
+			      <li><a id="datanodeA" href="#datanode" data-toggle="tab">DataNode</a></li>
+			  </ul>
+			
+			  <div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade in active" id="namenode">
+				    <!-- 内容头 -->
+				    <section class="content-header">
+				      <h1>NameNode</h1>
+				      <!-- 路径导航 -->
+				      <ol class="breadcrumb">
+				        <li><a href="/monitor"><i class="fa fa-dashboard"></i> 主页</a></li>
+				        <li class="active">NameNode</li>
+				      </ol>
+				    </section>
+				
+				    <!-- 内容体 -->
+				    <section class="content">
+				      <!-- Info boxes -->
+				      <div id="namenodeSquares" class="row">
+				        <div class="col-md-5ths col-sm-6 col-xs-12">
+				          <div class="info-box">
+				            <span class="info-box-icon bg-aqua"><i class="ion ion-document-text"></i></span>
+				            <div class="info-box-content">
+				              <span class="info-box-text">TotalFiles</span>
+				              <span class="info-box-text">总的文件总数</span>
+				              <span id="TotalFiles" class="info-box-number"></span>
+				            </div>
+				          </div>
+				        </div>
+				        <div class="col-md-5ths col-sm-6 col-xs-12">
+				          <div class="info-box">
+				            <span class="info-box-icon bg-teal"><i class="ion ion-ios-gear-outline"></i></span>
+				            <div class="info-box-content">
+				              <span class="info-box-text">TotalBlocks</span>
+				              <span class="info-box-text">Block的总数量</span>
+				              <span id="TotalBlocks" class="info-box-number"></span>
+				            </div>
+				          </div>
+				        </div>
+				        <!-- /.col -->
+				        <div class="col-md-5ths col-sm-6 col-xs-12">
+				          <div class="info-box">
+				            <span class="info-box-icon bg-red"><i class="ion ion-android-warning"></i></span>
+				
+				            <div class="info-box-content">
+				              <span class="info-box-text">CorruptBlocks</span>
+				              <span class="info-box-text">损坏的Block数</span>
+				              <span id="CorruptBlocks" class="info-box-number"></span>
+				            </div>
+				            <!-- /.info-box-content -->
+				          </div>
+				          <!-- /.info-box -->
+				        </div>
+				        <!-- /.col -->
+				
+				        <!-- fix for small devices only -->
+				        <div class="clearfix visible-sm-block"></div>
+				
+				        <div class="col-md-5ths col-sm-6 col-xs-12">
+				          <div class="info-box">
+				            <span class="info-box-icon bg-yellow"><i class="ion ion-android-remove-circle"></i></span>
+				
+				            <div class="info-box-content">
+				              <span class="info-box-text">MissingBlocks</span>
+				              <span class="info-box-text">丢失的Block数</span>
+				              <span id="MissingBlocks" class="info-box-number"></span>
+				            </div>
+				            <!-- /.info-box-content -->
+				          </div>
+				          <!-- /.info-box -->
+				        </div>
+				        <!-- /.col -->
+				        <div class="col-md-5ths col-sm-6 col-xs-12">
+				          <div class="info-box">
+				            <span class="info-box-icon bg-green"><i class="ion ion-pie-graph"></i></span>
+				
+				            <div class="info-box-content">
+				              <span class="info-box-text">PercentUsed</span>
+				              <span class="info-box-text">HDFS使用百分比</span>
+ 				              <span id="PercentUsed" class="info-box-number"></span>
+				            </div>
+				            <!-- /.info-box-content -->
+				          </div>
+				          <!-- /.info-box -->
+				        </div>
+				        <!-- /.col -->
+				      </div>
+				      
+				      <!-- echart namenode test -->
+				      <div id="graphs" class="row">
+				      	<div class="col-md-12">
+					      <div class="box box-success">
+						      <div class="box-header with-border">
+						      <!-- 参数名称写死 尝试jquery template.js前端模板引擎等 重复太多 -->
+							    <h3 class="box-title">GCTime</h3>
+							    <div class="box-tools pull-right">
+							      <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+							    </div><!-- /.box-tools -->
+							  </div><!-- /.box-header -->
+							  <div class="box-body">
+							  	<div id = "GCTime" style="height:400px;"></div>
+								  <!-- <div class="row">
+								  	<div class="col-md-8">
+								  		<div id = "GCTime" style="height:400px;"></div>
+								  	</div>
+								  	<div class="col-md-4">
+								  		<p class="text-center"><strong><i class="fa fa-bullhorn"></i>Callouts</strong></p>
+								  		<pre class="prettyprint"><code id="GCTimeInfoContent" type="text"></code></p>
+								  	</div>
+								  </div> -->
+							  </div><!-- /.box-body -->
+						</div><!-- /.box -->
+					  </div>
+					  
+					  <div class="col-md-12">
+					      <div class="box box-success">
+						      <div class="box-header with-border">
+						      <!-- 参数名称写死 尝试jquery template.js前端模板引擎等 重复太多 -->
+							    <h3 class="box-title">GCCount</h3>
+							    <div class="box-tools pull-right">
+							      <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+							    </div><!-- /.box-tools -->
+							  </div><!-- /.box-header -->
+							  <div class="box-body">
+							  	  <div id = "GCCount" style="height:400px;"></div>
+								  <!-- <div class="row">
+								  	<div class="col-md-8">
+								  		<div id = "GCCount" style="height:400px;"></div>
+								  	</div>
+								  	<div class="col-md-4">
+								  		<p class="text-center"><strong><i class="fa fa-bullhorn"></i>Callouts</strong></p>
+								  		<pre class="prettyprint"><code id="GCCountInfoContent" type="text"></code></p>
+								  	</div>
+								  </div> -->
+							  </div><!-- /.box-body -->
+						</div><!-- /.box -->
+					  </div>
+					  
+					  <div class="col-md-12">
+					      <div class="box box-success">
+						      <div class="box-header with-border">
+						      <!-- 参数名称写死 尝试jquery template.js前端模板引擎等 重复太多 -->
+							    <h3 class="box-title">MemHeapUsedM</h3>
+							    <div class="box-tools pull-right">
+							      <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+							    </div><!-- /.box-tools -->
+							  </div><!-- /.box-header -->
+							  <div class="box-body">
+							  	  <div id = "MemHeapUsedM" style="height:400px;"></div>
+								  <!-- <div class="row">
+								  	<div class="col-md-8">
+								  		<div id = "MemHeapUsedM" style="height:400px;"></div>
+								  	</div>
+								  	<div class="col-md-4">
+								  		<p class="text-center"><strong><i class="fa fa-bullhorn"></i>Callouts</strong></p>
+								  		<pre class="prettyprint"><code id="MemHeapUsedMInfoContent" type="text"></code></p>
+								  	</div>
+								  </div> -->
+							  </div><!-- /.box-body -->
+						</div><!-- /.box -->
+					  </div>
+					  
+					  <div class="col-md-12">
+					      <div class="box box-success">
+						      <div class="box-header with-border">
+						      <!-- 参数名称写死 尝试jquery template.js前端模板引擎等 重复太多 -->
+							    <h3 class="box-title">ThreadsBlocked/Waiting</h3>
+							    <div class="box-tools pull-right">
+							      <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+							    </div><!-- /.box-tools -->
+							  </div><!-- /.box-header -->
+							  <div class="box-body">
+							  	  <div id = "THREADS" style="height:400px;"></div>
+								  <!-- <div class="row">
+								  	<div class="col-md-8">
+								  		<div id = "THREADS" style="height:400px;"></div>
+								  	</div>
+								  	<div class="col-md-4">
+								  		<p class="text-center"><strong><i class="fa fa-bullhorn"></i>Callouts</strong></p>
+								  		<pre class="prettyprint"><code id="THREADSInfoContent" type="text"></code></p>
+								  	</div>
+								  </div> -->
+							  </div><!-- /.box-body -->
+						</div><!-- /.box -->
+					  </div>
+					</div>
+					</section>
+				   </div>
+				      
+				      
+				    
+				    
+				    
+			    <div class="tab-pane fade" id="datanode"></div>
+			  </div>
+			</div>
+		    
+		  </div>
+		  
+		  <!-- 尾部信息，包含版权版本等 -->
+		  <script src="common/js/footer.js"></script>
+		
+		<!-- 所有页面公用的JS -->
+		<script src="common/js/commonJSPack.js"></script>
+		<script src="plugins/echarts/echarts.js"></script>
+		<script type="text/javascript" src="module/namenode/namenode.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				Namenode.init();
+			});
+			$("#datanodeA").click(function(){
+				location.href = "/monitor/asset/module/datanode/DataNode.html";
+			});
+		</script>
+	</body>
+</html>

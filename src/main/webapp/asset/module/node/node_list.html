@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <base href="/monitor/asset/"/>
+    <!-- 所有页面公用CSS和Head信息 -->
+    <script src="common/js/commonHeadPack.js"></script>
+    <link rel="stylesheet" href="module/node/node_list.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <!-- 顶部导航 -->
+    <script src="common/js/header.js"></script>
+
+    <!-- 左侧功能列表，包含logo和菜单 -->
+    <script src="common/js/slider.js"></script>
+
+    <!-- 主体内容 -->
+    <div class="content-wrapper">
+
+        <!-- 内容头 -->
+        <section class="content-header">
+            <h1>
+                节点状态
+                <small>集群节点列表</small>
+            </h1>
+            <!-- 路径导航 -->
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </section>
+
+        <!-- 内容体 -->
+        <section class="content">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-success">
+						<div class="box-header with-border">
+							<i class="fa fa-diamond"></i>
+							<h3 class="box-title">主节点信息</h3>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-6">
+									<dl class="dl-horizontal">
+										<dt>CPU数：</dt>
+										<dd id="masterCpuNum">N/A</dd>
+										<dt>1分钟平均负载：</dt>
+										<dd id="masterLoad1">N/A</dd>
+										<dt>5分钟平均负载：</dt>
+										<dd id="masterLoad5">N/A</dd>
+										<dt>15分钟平均负载：</dt>
+										<dd id="masterLoad15">N/A</dd>
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<dl class="dl-horizontal">
+										<dt>主机名：</dt>
+										<dd id="masterHost">N/A</dd>
+										<dt>可用内存：</dt>
+										<dd id="masterFreeMem">N/A</dd>
+										<dt>总内存大小：</dt>
+										<dd id="masterTotalMem">N/A</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+				</div>
+			</div>
+            <div class="box box-success">
+				<div class="box-header with-border">
+					<i class="fa fa-sitemap"></i>
+					<h3 class="box-title">AGENT节点信息</h3>
+				</div>
+                <div class="box-body">
+					<table id="nodeListTable" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>状态</th>
+                            <th>主机名</th>
+                            <th>CPU数</th>
+                            <th>GPU数</th>
+                            <th>内存总量</th>
+                            <th>磁盘总量</th>
+                            <th>注册时间</th>
+                            <th>详情</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+            <!-- 详情模板 -->
+            <div id="nodeDetailTemplate">
+                <div class="box box-solid box-success">
+                    <div class="box-header">
+                        <h3 class="box-title rowBoxTitle">节点详情</h3>
+                        <div class="box-tools pull-right refreshBtn">
+                            <span class="btn btn-default"><i class="fa fa-refresh"></i> 刷新</span>
+                        </div>
+                    </div>
+                    <div class="box-body">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="box box-solid nodeDetailLittleBox">
+									<div class="box-header with-border centerPos">
+										<i class="fa fa-microchip"></i>
+										<h3 class="box-title text-red">CPU相关</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<dl class="dl-horizontal">
+											<dt>总可用核心：</dt>
+											<dd class="cpuNum">N/A</dd>
+											<dt>调度使用核心：</dt>
+											<dd class="cpusUsed">N/A</dd>
+											<dt>1分钟平均负载：</dt>
+											<dd class="loadOne">N/A</dd>
+											<dt>5分钟平均负载：</dt>
+											<dd class="loadFive">N/A</dd>
+											<dt>15分钟平均负载：</dt>
+											<dd class="loadFifteen">N/A</dd>
+											<dt>调度CPU利用率：</dt>
+											<dd class="cpuPercent">N/A</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="box box-solid nodeDetailLittleBox">
+									<div class="box-header with-border centerPos">
+										<i class="fa fa-fw fa-hdd-o"></i>
+										<h3 class="box-title text-red">磁盘相关</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<dl class="dl-horizontal">
+											<dt>总可用空间：</dt>
+											<dd class="diskTotal">N/A</dd>
+											<dt>调度使用空间：</dt>
+											<dd class="diskUsed">N/A</dd>
+											<dt>使用率：</dt>
+											<dd class="diskUsedRate">N/A</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="box box-solid nodeDetailLittleBox">
+											<div class="box-header with-border centerPos">
+												<i class="fa fa-fw fa-cubes"></i>
+												<h3 class="box-title text-red">内存相关</h3>
+											</div>
+											<!-- /.box-header -->
+											<div class="box-body">
+												<dl class="dl-horizontal">
+													<dt>总空间：</dt>
+													<dd class="memTotal">N/A</dd>
+													<dt>可用空间：</dt>
+													<dd class="memFree">N/A</dd>
+													<dt>已用空间：</dt>
+													<dd class="memUsed">N/A</dd>
+													<dt>使用率：</dt>
+													<dd class="memUsedRate">N/A</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="pieChart" style="width: 100%; height: 150px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="box box-solid nodeDetailLittleBox">
+									<div class="box-header with-border centerPos">
+										<i class="fa fa-fw fa-tasks"></i>
+										<h3 class="box-title text-red">Task相关</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<dl class="dl-horizontal">
+											<dt>运行中Task：</dt>
+											<dd class="runningTask">N/A</dd>
+											<dt>等待中Task：</dt>
+											<dd class="pendingTask">N/A</dd>
+											<dt>已失败Task：</dt>
+											<dd class="failedTask">N/A</dd>
+											<dt>已完成Task：</dt>
+											<dd class="finishedTask">N/A</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="box box-solid nodeDetailLittleBox">
+									<div class="box-header with-border centerPos">
+										<i class="fa fa-fw fa-cube"></i>
+										<h3 class="box-title text-red">Executor相关</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<dl class="dl-horizontal">
+											<dt>注册中的执行器：</dt>
+											<dd class="executorsRegistering">N/A</dd>
+											<dt>运行中的执行器：</dt>
+											<dd class="executorsRunning">N/A</dd>
+											<dt>终结中的执行器：</dt>
+											<dd class="executorsTerminating">N/A</dd>
+											<dt>已终结的执行器：</dt>
+											<dd class="executorsTerminated">N/A</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 尾部信息，包含版权版本等 -->
+    <script src="common/js/footer.js"></script>
+</div>
+
+<!-- 所有页面公用的JS -->
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/node/node_list.js"></script>
+</body>
+</html>

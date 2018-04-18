@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<base href="/monitor/asset/" />
+<!-- 所有页面公用CSS和Head信息 -->
+<script src="common/js/commonHeadPack.js"></script>
+<link rel="stylesheet" href="module/yarn/yarn.css">
+</head>
+
+
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<!-- 顶部导航 -->
+		<script src="common/js/header.js"></script>
+
+		<!-- 左侧功能列表，包含logo和菜单 -->
+		<script src="common/js/slider.js"></script>
+
+		<!-- 主体内容 -->
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Yarn资源监控</h1>
+				<!-- 路径导航 -->
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> 资源监控</a></li>
+					<li class="active">Yarn资源</li>
+				</ol>
+			</section>
+
+			<section class="content">
+				<div>
+					<span class="appSpan"><a href="module/application/running_app_list.html" style="cursor: pointer;"><label
+							class="font-size60" id="hadoopAppCount">0</label>&nbsp;&nbsp; <label
+							class="font-size30">MapReduce应用程序</label></a> <a href="module/application/spark/running_app_list.html"
+						style="cursor: pointer;"><label class="font-size60"
+							id="sparkAppCount">0</label>&nbsp;&nbsp; <label
+							class="font-size30">Spark应用程序</label></a> </span>
+					<hr style="height: 3px; background-color: #333; margin-top: 0px;">
+				</div>
+
+				<!-- <div class="row">
+					<div class="col-lg-3 col-xs-6">
+						<div class="small-box bg-aqua">
+							<div class="inner">
+								<h3 id="hadoopAppCount">3</h3>
+								<h4>hadoop应用程序</h4>
+							</div>
+							<div class="icon">
+								<i class="fa fa-shopping-cart"></i>
+							</div>
+							<a href="module/yarn/yarn.html#" class="small-box-footer"> 详情
+								<i class="fa fa-arrow-circle-right"></i>
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-3 col-xs-6">
+						<div class="small-box bg-green">
+							<div class="inner">
+								<h3 id="sparkAppCount">0</h3>
+								<h4>spark应用程序</h4>
+							</div>
+							<div class="icon">
+								<i class="ion ion-stats-bars"></i>
+							</div>
+							<a href="module/yarn/yarn.html#" class="small-box-footer"> 详情
+								<i class="fa fa-arrow-circle-right"></i>
+							</a>
+						</div>
+					</div>
+				</div> -->
+
+				<!-- hadoop and spark 详情 -->
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-9 col-sm-12 col-xs-12">
+									<div id="hadoopAppChart" style="width: 100%; height: 300px;"></div>
+								</div>
+								<div class="col-md-3 col-sm-12 col-xs-12">
+									<div class="statistic">
+										<ul class="list-group">
+											<li class="list-group-item"><b>Map Reduce任务：</b></li>
+											<li class="list-group-item">&nbsp;运行中：<span
+												id="mrRunningNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已失败：<span
+												id="mrFailedNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已杀死：<span
+												id="mrKilledNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已完成：<span
+												id="mrFinishedNum">N/A</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-9 col-sm-12 col-xs-12">
+									<div id="sparkAppChart" style="width: 100%; height: 300px;"></div>
+								</div>
+								<div class="col-md-3 col-sm-12 col-xs-12">
+									<div class="statistic">
+										<ul class="list-group">
+											<li class="list-group-item"><b>Spark任务：</b></li>
+											<li class="list-group-item">&nbsp;运行中：<span
+												id="spRunningNum">N/A</span></li>
+											<!-- <li class="list-group-item">&nbsp;已失败：<span
+												id="spFailedNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已杀死：<span
+												id="spKilledNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;已完成：<span
+												id="spFinishedNum">N/A</span></li> -->
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /end hadoop and spark 详情 -->
+
+
+				<!-- memory and cores 详情 -->
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-10 col-sm-12 col-xs-12">
+									<div id="memChart" style="width: 100%; height: 300px;"></div>
+								</div>
+								<div class="col-md-2 col-sm-12 col-xs-12">
+									<div class="statistic">
+										<ul class="list-group">
+											<li class="list-group-item"><b>内存状态：</b></li>
+											<li class="list-group-item">&nbsp;总内存：<span
+												id="memTotal">N/A</span>&nbsp;M
+											</li>
+											<li class="list-group-item">&nbsp;可用：<span
+												id="memAvailable">N/A</span>&nbsp;M
+											</li>
+											<li class="list-group-item">&nbsp;已用：<span
+												id="memAllocated">N/A</span>&nbsp;M
+											</li>
+											<li class="list-group-item">&nbsp;预留：<span
+												id="memReserved">N/A</span>&nbsp;M
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-10 col-sm-12 col-xs-12">
+									<div id="coresChart" style="width: 100%; height: 300px;"></div>
+								</div>
+								<div class="col-md-2 col-sm-12 col-xs-12">
+									<div class="statistic">
+										<ul class="list-group">
+											<li class="list-group-item"><b>虚拟cores状态：</b></li>
+											<li class="list-group-item">&nbsp;虚拟cores总数：<span
+												id="coresTotal">N/A</span>&nbsp;
+											</li>
+											<li class="list-group-item">&nbsp;虚拟cores可用：<span
+												id="coresAvailable">N/A</span>&nbsp;
+											</li>
+											<li class="list-group-item">&nbsp;虚拟cores已用：<span
+												id="coresAllocated">N/A</span>&nbsp;
+											</li>
+											<li class="list-group-item">&nbsp;虚拟cores预留：<span
+												id="coresReserved">N/A</span>&nbsp;
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /end memory and cores 详情 -->
+
+				<!-- memory and cores 详情 -->
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-10 col-sm-12 col-xs-12">
+									<div id="containChart" style="width: 100%; height: 300px;"></div>
+								</div>
+								<div class="col-md-2 col-sm-12 col-xs-12">
+									<div class="statistic">
+										<ul class="list-group">
+											<li class="list-group-item"><b>Container状态：</b></li>
+											<li class="list-group-item">&nbsp;已用：<span
+												id="allocatedC">N/A</span></li>
+											<li class="list-group-item">&nbsp;待分配：<span
+												id="pangdingC">N/A</span></li>
+											<li class="list-group-item">&nbsp;预留：<span
+												id="reservedC">N/A</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12 div-hide">
+						<div class="box">
+							<div class="row">
+								<div class="col-md-10 col-sm-12 col-xs-12">
+									<div id="nodeManagerChart" style="width: 100%; height: 300px;"></div>
+								</div>
+								<div class="col-md-2 col-sm-12 col-xs-12">
+									<div class="statistic">
+										<ul class="list-group">
+											<li class="list-group-item"><b>nodeManagerChart状态：</b></li>
+											<li class="list-group-item">&nbsp;运行中：<span
+												id="nodeRunningNum">N/A</span></li>
+											<li class="list-group-item">&nbsp;杀掉：<span
+												id="nodeFailedNum">N/A</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /end memory and cores 详情 -->
+
+			</section>
+
+		</div>
+
+		<!-- 尾部信息，包含版权版本等 -->
+		<script src="common/js/footer.js"></script>
+	</div>
+
+	<!-- 所有页面公用的JS -->
+	<script src="common/js/commonJSPack.js"></script>
+	<script src="plugins/echarts/echarts.js"></script>
+	<script src="module/yarn/hadoop_job.js"></script>
+	<script src="module/yarn/yarnmemory.js"></script>
+	<script src="module/yarn/yarncores.js"></script>
+</body>
+</html>
