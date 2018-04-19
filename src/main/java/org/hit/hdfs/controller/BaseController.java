@@ -1,6 +1,8 @@
 package org.hit.hdfs.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.google.gson.GsonBuilder;import afu.org.checkerframework.checker.oigj.qual.OIGJMutabilityBottom;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hit.hdfs.common.ControllerResult;
 
@@ -59,7 +61,8 @@ public class BaseController {
 	 * @param obj
 	 */
 	public String responseJson(Object obj) {
-		return JSON.toJSONString(obj);
+		//return JSON.toJSONString(obj);
+		return new GsonBuilder().setPrettyPrinting().serializeNulls().create().toJson(obj);
 	}
 
 	/**

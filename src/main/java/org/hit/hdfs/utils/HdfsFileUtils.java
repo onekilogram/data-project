@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/5/25.
+ * Created by kg on 2018/3/25.
  */
 public class HdfsFileUtils {
 	public static void main(String[] args) {
@@ -35,7 +35,6 @@ public class HdfsFileUtils {
 			e.printStackTrace();
 		}
 	}
-
 	/**
 	 *
 	 * @return 得到hdfs的连接 FileSystem类
@@ -111,7 +110,17 @@ public class HdfsFileUtils {
 		}
 	}
 
-	public List<FileStatus> getFileStatus(String filePath)
+	/**
+	 * @method: getFileStatus 
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @param filePath
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws InterruptedException 
+	 * List<FileStatus> 返回类型
+	 */
+	public static List<FileStatus> getFileStatus(String filePath)
 			throws URISyntaxException, IOException, InterruptedException {
 		// 处理filePath
 		FileSystem hdfs = getFileSystem();
@@ -138,7 +147,7 @@ public class HdfsFileUtils {
 		} else if (filePath.startsWith("hdfs")) {
 			return sBuilder.append(filePath).toString();
 		} else {
-			return sBuilder.append(CONFIG.HDFS_URL).append("/").append(CONFIG.HDFS_User).append("/").append(filePath)
+			return sBuilder.append(CONFIG.HDFS_URL).append("/user/").append(CONFIG.HDFS_User).append("/").append(filePath)
 					.toString();
 		}
 	}
