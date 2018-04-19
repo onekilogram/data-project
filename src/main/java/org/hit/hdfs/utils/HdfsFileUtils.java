@@ -1,8 +1,10 @@
 package org.hit.hdfs.utils;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
 import org.hit.hdfs.common.CONFIG;
 
@@ -22,21 +24,8 @@ import java.util.List;
  * Created by kg on 2018/3/25.
  */
 public class HdfsFileUtils {
-	public static void main(String[] args) {
 
-		Path path = new Path("hdfs://master:9000/");
-		try {
-			// 得到 FileSystem 类
-			FileSystem hdfs = getFileSystem();
-			// 列出某个目录下所有文件的信息
-			listFilesStatus(path, hdfs);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	/**
-	 *
 	 * @return 得到hdfs的连接 FileSystem类
 	 * @throws URISyntaxException
 	 * @throws IOException
@@ -61,7 +50,6 @@ public class HdfsFileUtils {
 		FileStatus[] files = hdfs.listStatus(path);
 		List<FileStatus> list = new ArrayList<FileStatus>();
 		// System.out.println("对象转换成json字符串 ：" + JSON.toJSON(files));
-
 		for (int i = 0; i < files.length; i++) {
 			FileStatus file = files[i];
 			if (file.isFile()) {
@@ -88,37 +76,30 @@ public class HdfsFileUtils {
 			} else if (file.isDirectory()) {
 				System.out.println("这是文件夹");
 				// System.out.println("文件父路径: "+file.getPath().toString());
-
 				// 递归调用
 				// listFilesStatus(file.getPath(),hdfs);
 				list.add(file);
 			} else if (file.isSymlink()) {
 				System.out.println("这是链接文件");
 			}
-
 			Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-
 			System.out.println(gson.toJson(list));
-
 			String json = gson.toJson(list);
-
 			Type listType = new TypeToken<ArrayList<FileStatus>>() {
 			}.getType();
 			List<FileStatus> _list = gson.fromJson(json, listType);
-
-			// System.out.println("对象转换成json字符串 ：" + JSON.toJSONString(list));
+			System.out.println("对象转换成json字符串 ：" + _list.size());
 		}
 	}
 
 	/**
-	 * @method: getFileStatus 
-	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @method: getFileStatus
+	 * @Description: TODO(这里用一句话描述这个方法的作用)
 	 * @param filePath
-	 * @return
+	 * @return List<FileStatus> 返回类型
 	 * @throws URISyntaxException
 	 * @throws IOException
-	 * @throws InterruptedException 
-	 * List<FileStatus> 返回类型
+	 * @throws InterruptedException
 	 */
 	public static List<FileStatus> getFileStatus(String filePath)
 			throws URISyntaxException, IOException, InterruptedException {
@@ -139,6 +120,33 @@ public class HdfsFileUtils {
 		return list;
 	}
 
+	/**
+	 * @method: getBlockLocation
+	 * @Description: TODO(这里用一句话描述这个方法的作用)
+	 * @param filePath
+	 * @return BlockLocation[] 返回类型
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public static BlockLocation[] getBlockLocation(String filePath)
+			throws URISyntaxException, IOException, InterruptedException {
+		// 处理filePath
+		FileSystem hdfs = getFileSystem();
+		BlockLocation[] blkLocations = null;
+		String realPath = getRealFilePath(filePath);
+		System.out.println(realPath);
+		FileStatus fileStatus = hdfs.getFileStatus(new Path(realPath));
+		// 获取这个文件的基本信息
+		System.out.println(fileStatus);
+		
+		if (fileStatus.isFile()) {
+			System.out.println("这是个文件");
+			blkLocations = ((LocatedFileStatus) fileStatus).getBlockLocations();
+		}
+		return blkLocations;
+	}
+
 	// 将路径转换
 	public static String getRealFilePath(String filePath) {
 		StringBuilder sBuilder = new StringBuilder();
@@ -147,8 +155,27 @@ public class HdfsFileUtils {
 		} else if (filePath.startsWith("hdfs")) {
 			return sBuilder.append(filePath).toString();
 		} else {
-			return sBuilder.append(CONFIG.HDFS_URL).append("/user/").append(CONFIG.HDFS_User).append("/").append(filePath)
-					.toString();
+			return sBuilder.append(CONFIG.HDFS_URL).append("/user/").append(CONFIG.HDFS_User).append("/")
+					.append(filePath).toString();
+		}
+	}
+
+	public static void main(String[] args) {
+
+		Path path = new Path("/1.txt");
+		try {
+			// 得到 FileSystem 类
+			FileSystem hdfs = getFileSystem();
+			// 列出某个目录下所有文件的信息
+			listFilesStatus(path, hdfs);
+
+			BlockLocation[] blockLocations = getBlockLocation("/1.txt");
+			for (BlockLocation bloca : blockLocations) {
+				System.out.println(bloca);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
