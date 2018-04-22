@@ -6,6 +6,8 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.DistributedFileSystem;
+import org.apache.hadoop.hdfs.protocol.DatanodeInfo;
 import org.hit.hdfs.common.CONFIG;
 
 import com.google.gson.Gson;
@@ -31,11 +33,12 @@ public class HdfsFileUtils {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public static FileSystem getFileSystem() throws URISyntaxException, IOException, InterruptedException {
+	public static FileSystem getFileSystem()
+			throws URISyntaxException, IOException, InterruptedException {
 		// 获取FileSystem类的方法有很多种，这里只写一种
 		Configuration config = new Configuration();
 		URI uri = new URI(CONFIG.HDFS_URL);
-		return FileSystem.get(uri, config);// 第一位为uri，第二位为config，第三位是登录的用户
+		return FileSystem.get(uri, config,CONFIG.HDFS_User);// 第一位为uri，第二位为config，第三位是登录的用户
 	}
 
 	/**
@@ -66,10 +69,11 @@ public class HdfsFileUtils {
 				long accessTime = file.getAccessTime(); // 该文件上次访问时间
 				short replication = file.getReplication(); // 文件副本数
 				String permission = file.getPermission().toString();
-				System.out.println("文件长度: " + len + "\n" + "文件路径: " + pathSource + "\n" + "文件名称: " + fileName + "\n"
-						+ "文件父路径: " + parentPath + "\n" + "文件最后修改时间: " + timestamp + "\n" + "文件块大小: " + blockSize + "\n"
-						+ "文件所属组: " + group + "\n" + "文件拥有者: " + owner + "\n" + "该文件上次访问时间: " + accessTime + "\n"
-						+ "文件副本数: " + replication + "\n" + "-------: " + permission + "\n"
+				System.out.println("文件长度: " + len + "\n" + "文件路径: " + pathSource + "\n" + "文件名称: "
+						+ fileName + "\n" + "文件父路径: " + parentPath + "\n" + "文件最后修改时间: " + timestamp
+						+ "\n" + "文件块大小: " + blockSize + "\n" + "文件所属组: " + group + "\n" + "文件拥有者: "
+						+ owner + "\n" + "该文件上次访问时间: " + accessTime + "\n" + "文件副本数: " + replication
+						+ "\n" + "-------: " + permission + "\n"
 						+ "==============================");
 
 				list.add(file);
@@ -139,10 +143,10 @@ public class HdfsFileUtils {
 		FileStatus fileStatus = hdfs.getFileStatus(new Path(realPath));
 		// 获取这个文件的基本信息
 		System.out.println(fileStatus);
-		
+
 		if (fileStatus.isFile()) {
 			System.out.println("这是个文件");
-			blkLocations = ((LocatedFileStatus) fileStatus).getBlockLocations();
+			blkLocations = hdfs.getFileBlockLocations(fileStatus, 0, fileStatus.getLen());
 		}
 		return blkLocations;
 	}
@@ -155,8 +159,8 @@ public class HdfsFileUtils {
 		} else if (filePath.startsWith("hdfs")) {
 			return sBuilder.append(filePath).toString();
 		} else {
-			return sBuilder.append(CONFIG.HDFS_URL).append("/user/").append(CONFIG.HDFS_User).append("/")
-					.append(filePath).toString();
+			return sBuilder.append(CONFIG.HDFS_URL).append("/user/").append(CONFIG.HDFS_User)
+					.append("/").append(filePath).toString();
 		}
 	}
 
@@ -167,12 +171,38 @@ public class HdfsFileUtils {
 			// 得到 FileSystem 类
 			FileSystem hdfs = getFileSystem();
 			// 列出某个目录下所有文件的信息
-			listFilesStatus(path, hdfs);
+			// listFilesStatus(path, hdfs);
 
-			BlockLocation[] blockLocations = getBlockLocation("/1.txt");
+			BlockLocation[] blockLocations = getBlockLocation("/MicroBenchmarks/lda_wiki1w_1");
 			for (BlockLocation bloca : blockLocations) {
 				System.out.println(bloca);
 			}
+			Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+			System.out.println(gson.toJson(blockLocations));
+
+			// Configuration config = new Configuration();
+			// FileSystem fs = FileSystem.get(config);
+			// DistributedFileSystem hdfs2 = (DistributedFileSystem) fs;
+			// DatanodeInfo[] dataNodeStats = hdfs2.getDataNodeStats();
+			// String[] names = new String[dataNodeStats.length];
+			// for (int i = 0; i < dataNodeStats.length; i++) {
+			// System.out.println(dataNodeStats[i]);
+			// }
+
+			Configuration conf = new Configuration();
+	        // conf.set("dfs.default.name", "hdfs://hadoopmaster:9000");
+	        String uri = "hdfs://master:9000";
+	        FileSystem fs = FileSystem.get(URI.create(uri), conf,"dbcluster");
+	        DistributedFileSystem hdfs2 = (DistributedFileSystem) fs;
+	        DatanodeInfo[] dataNodeStats = hdfs2.getDataNodeStats();
+	        String[] names = new String[dataNodeStats.length];
+	        for (int i = 0; i < dataNodeStats.length; i++) {
+	            names[i] = dataNodeStats[i].getHostName();
+	            System.out.println("node:" + i + ",name:" + names[i]);
+	        }
+			// fs.close();
+	       /// Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+			System.out.println(gson.toJson(dataNodeStats));
 
 		} catch (Exception e) {
 			e.printStackTrace();

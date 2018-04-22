@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FileStatus;
 import org.hit.hdfs.service.HdfsFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,9 @@ public class HdfsFileController extends BaseController {
 				return responseControllerResultError("参数错误");
 			}
 
-			List<FileStatus> fFileStatuslist = hdfsFileService.getHdfsFile(filePath);
+			BlockLocation[] BlockLocations = hdfsFileService.getBlockLocation(filePath);
 
-			return responseControllerResultSuccess(fFileStatuslist);
+			return responseControllerResultSuccess(BlockLocations);
 
 		} catch (Exception e) {
 			return responseControllerResultError("服务器异常");
