@@ -52,7 +52,7 @@ public class CogradientImgFileManager {
 				+ ",port:" + port);
 		JSch jsch = new JSch(); // 创建JSch对象
 		session = jsch.getSession(userName, host, port); // 根据用户名，主机ip，端口获取一个Session对象
-		session.setPassword(password); // 设置密码
+		//session.setPassword(password); // 设置密码
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config); // 为Session对象设置properties

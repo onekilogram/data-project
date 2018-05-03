@@ -22,7 +22,7 @@
 	<context:component-scan base-package="org.hit.hdfs.service" />
 	
 	<!-- 持久化相关 -->
-	<import resource="classpath:dbconfig/persistence.xml" />
+	<!-- <import resource="classpath:dbconfig/persistence.xml" /> -->
 
 	<!-- 其他服务 -->
 	<import resource="classpath:context/*.xml" />
